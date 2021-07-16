@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">07-05-2021-Seccion4UdemyAndroidUX-UI</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Configuracion</string>
+
+    <string name="action_lightTheme">LightTheme(Selected)</string>
+    <string name="action_darkTheme">DarkTheme</string>
 
     <string name="label_dialog_add">Añadir</string>
     <string name="label_dialog_cancel">Cancelar</string>
