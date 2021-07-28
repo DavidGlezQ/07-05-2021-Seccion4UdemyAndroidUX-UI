@@ -9,18 +9,14 @@ package com.alain.cursos.top;
  * Cursos Android ANT
  */
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
-
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
@@ -32,6 +28,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -46,7 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class DetalleActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class DetalleActivity extends AppCompatActivity {
 
     private static final int RC_PHOTO_PICKER = 21;
 
@@ -86,7 +85,6 @@ public class DetalleActivity extends AppCompatActivity implements DatePickerDial
     TextInputLayout tilEstatura;
 
     private Artista mArtista;
-    private Calendar mCalendar;
     private MenuItem mMenuItem;
     private boolean mIsEdit;
 
@@ -99,8 +97,6 @@ public class DetalleActivity extends AppCompatActivity implements DatePickerDial
         configArtista(getIntent());
         configActionBar();
         configImageView(mArtista.getFotoUrl());
-        configCalendar();
-
 
     }
 
@@ -162,9 +158,6 @@ public class DetalleActivity extends AppCompatActivity implements DatePickerDial
         mArtista.setFotoUrl(fotoUrl);
     }
 
-    private void configCalendar() {
-        mCalendar = Calendar.getInstance(Locale.ROOT);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -281,28 +274,23 @@ public class DetalleActivity extends AppCompatActivity implements DatePickerDial
         containerMain.setNestedScrollingEnabled(!enable);
     }
 
-    @Override
-    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        mCalendar.setTimeInMillis(System.currentTimeMillis());
-        mCalendar.set(Calendar.YEAR, year);
-        mCalendar.set(Calendar.MONTH, month);
-        mCalendar.set(Calendar.DAY_OF_MONTH, day);
-
-        etFechaNacimiento.setText(new SimpleDateFormat("dd/MM/yyyy", Locale.ROOT).format(
-                mCalendar.getTimeInMillis()));
-        mArtista.setFechaNacimiento(mCalendar.getTimeInMillis());
-        etEdad.setText(getEdad(mCalendar.getTimeInMillis()));
-    }
-
     @OnClick(R.id.etFechaNacimiento)
     public void onSetFecha() {
-        DialogSelectorFecha selectorFecha = new DialogSelectorFecha();
-        selectorFecha.setListener(DetalleActivity.this);
+        MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder.datePicker();
+        builder.setTheme(R.style.PickerDialogCut);
+        builder.setSelection(mArtista.getFechaNacimiento());
 
-        Bundle args = new Bundle();
-        args.putLong(DialogSelectorFecha.FECHA, mArtista.getFechaNacimiento());
-        selectorFecha.setArguments(args);
-        selectorFecha.show(getSupportFragmentManager(), DialogSelectorFecha.SELECTED_DATE);
+        CalendarConstraints.Builder constraints = new CalendarConstraints.Builder();
+        constraints.setOpenAt(mArtista.getFechaNacimiento());
+        builder.setCalendarConstraints(constraints.build());
+
+        MaterialDatePicker<?> picker = builder.build();
+        picker.addOnPositiveButtonClickListener(selection -> {
+            etFechaNacimiento.setText(new SimpleDateFormat("dd/MM/yyyy", Locale.ROOT).format(selection));
+            mArtista.setFechaNacimiento((Long) selection);
+            etEdad.setText(getEdad((Long) selection));
+        });
+        picker.show(getSupportFragmentManager(), picker.toString());
     }
 
 
@@ -314,7 +302,8 @@ public class DetalleActivity extends AppCompatActivity implements DatePickerDial
     public void photoHandler(View view) {
         switch (view.getId()) {
             case R.id.imgDeleteFoto:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                //AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this)
                         .setTitle(R.string.detalle_dialogDelete_title)
                         .setMessage(String.format(Locale.ROOT,
                                 getString(R.string.detalle_dialogDelete_message),
@@ -340,7 +329,8 @@ public class DetalleActivity extends AppCompatActivity implements DatePickerDial
     private void showAddPhotoDialog() {
         final EditText etFotoUrl = new EditText(this);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+        //AlertDialog.Builder builder = new AlertDialog.Builder(this)
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.addArtist_dialogUrl_title)
                 .setPositiveButton(R.string.label_dialog_add, (dialogInterface, i)->
                     savePhotoUrlArtist(etFotoUrl.getText().toString().trim()))
