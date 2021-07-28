@@ -10,6 +10,7 @@ package com.alain.cursos.top;
  */
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -134,6 +135,20 @@ public class DetalleActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        toolbarLayout.setExpandedTitleColor(Color.WHITE);
+        appBar.addOnOffsetChangedListener(((appBarLayout, verticalOffset) -> {
+            /*if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()){
+                toolbar.getNavigationIcon().setTint(Color.BLACK);
+            } else {
+                toolbar.getNavigationIcon().setTint(Color.WHITE);
+            }*/
+            float percentage = Math.abs((float) Math.abs(verticalOffset) / appBarLayout.getTotalScrollRange() -1);
+            int colorValue = (int) (percentage * 255);
+            if (toolbar.getNavigationIcon() != null) {
+                toolbar.getNavigationIcon().setTint(Color.rgb(colorValue, colorValue, colorValue));
+            }
+        }));
+
         configTitle();
     }
 
