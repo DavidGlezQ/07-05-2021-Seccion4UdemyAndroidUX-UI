@@ -11,6 +11,7 @@ package com.alain.cursos.top;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
@@ -45,12 +46,20 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     RecyclerView recyclerview;
     @BindView(R.id.containerMain)
     CoordinatorLayout containerMain;
+    
+    private final String SP_DARK_THEME = "spDarkTheme";
+    private boolean mIsModeNight;
+    private SharedPreferences sharedPreferences;
 
     private ArtistaAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        confTheme();
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
@@ -60,6 +69,15 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
         if (SQLite.select().from(Artista.class).count() == 0) {
             generateArtist();
+        }
+    }
+
+    private void confTheme() {
+        setTheme(R.style.MyTheme_DayNight);
+        sharedPreferences = getPreferences(MODE_PRIVATE);
+        mIsModeNight = sharedPreferences.getBoolean(SP_DARK_THEME, false);
+        if (mIsModeNight){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
     }
 
@@ -142,11 +160,16 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         switch (item.getItemId()){
             case R.id.action_lightTheme:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                mIsModeNight = false;
                 break;
             case R.id.action_darkTheme:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                mIsModeNight = true;
                 break;
         }
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(SP_DARK_THEME, mIsModeNight);
+        editor.apply();
         return super.onOptionsItemSelected(item);
     }
 

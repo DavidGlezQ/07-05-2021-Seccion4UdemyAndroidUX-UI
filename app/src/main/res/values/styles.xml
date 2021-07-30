@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -59,6 +59,19 @@
     <!--Alert Dialog-->
     <style name="MyMaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="colorPrimary">@color/color_primary_variant</item>
+    </style>
+    
+    <!--Splash Screen-->
+    <style name="Splash" parent="BaseSplash">
+    </style>
+
+    <!--Splash Screen-->
+    <style name="BaseSplash" parent="MyTheme.DayNight">
+        <item name="android:windowBackground">@drawable/background_splash_screen</item>
+        <item name="android:statusBarColor">?colorSecondary</item>
+
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
+        <item name="android:navigationBarColor">?colorSecondary</item>
     </style>
 </resources>
 
