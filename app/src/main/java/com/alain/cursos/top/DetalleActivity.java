@@ -192,7 +192,8 @@ public class DetalleActivity extends AppCompatActivity {
                 saveOrEdit();
                 break;
             case android.R.id.home:
-                finish();
+                //finish();
+                super.onBackPressed();
                 break;
         }
         return super.onOptionsItemSelected(item);
