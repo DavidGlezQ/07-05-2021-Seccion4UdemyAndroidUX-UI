@@ -16,8 +16,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -178,11 +180,23 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
      *      Métodos implementados por la interface OnItemClickListener
      * ******/
     @Override
-    public void onItemClick(Artista artista) {
+    //public void onItemClick(Artista artista) {
+    //public void onItemClick(Artista artista, View view) {
+    public void onItemClick(Artista artista, View imgPhoto, View tvNote) {
         Intent intent = new Intent(MainActivity.this, DetalleActivity.class);
         intent.putExtra(Artista.ID, artista.getId());
         //startActivity(intent);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        //startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+
+        Pair<View, String> imgPair = Pair.create(imgPhoto, imgPhoto.getTransitionName());
+        Pair<View, String> tvNotePair = Pair.create(tvNote, tvNote.getTransitionName());
+
+        /*ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, imgPhoto,
+                getString(R.string.transition_name_photo));*/
+
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, imgPair, tvNotePair);
+
+        startActivity(intent, options.toBundle());
     }
 
     @Override

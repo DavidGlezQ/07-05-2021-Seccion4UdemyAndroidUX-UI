@@ -9,7 +9,11 @@ package com.alain.cursos.top;
  * Cursos Android ANT
  */
 
+import android.view.View;
+
 interface OnItemClickListener {
-    void onItemClick(Artista artista);
+    //void onItemClick(Artista artista);
+    //void onItemClick(Artista artista, View view);
+    void onItemClick(Artista artista, View imgPhoto, View tvNote);
     void onLongItemClick(Artista artista);
 }
