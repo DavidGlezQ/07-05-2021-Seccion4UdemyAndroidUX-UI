@@ -16,6 +16,7 @@
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:title="@string/artist_hint_nombre"
             app:contentScrim="@color/color_collapsing_toolbar_layout"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar"
@@ -26,8 +27,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/imgFoto"
-                    android:transitionName="@string/transition_name_photo"
+                    android:id="@+id/imgCover"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/app_bar_height"
                     android:src="@drawable/ic_photo_size_select_actual"/>
@@ -52,6 +52,33 @@
                         android:id="@+id/imgFromUrl"
                         android:src="@drawable/ic_earth_box"/>
                 </LinearLayout>
+                
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imgFoto"
+                    android:layout_width="@dimen/img_detalle_size"
+                    android:layout_height="@dimen/img_detalle_size"
+                    android:transitionName="@string/transition_name_photo"
+                    android:layout_gravity="start|bottom"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginBottom="@dimen/common_padding_detail_img"
+                    android:src="@drawable/ic_account_box"
+                    app:civ_border_width="@dimen/common_padding_nano"
+                    app:civ_border_color="@android:color/white"/>
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:transitionName="@string/tn_name"
+                    android:text="@string/artist_hint_nombre"
+                    android:ellipsize="end"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/darker_gray"
+                    android:layout_gravity="start|bottom"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="26.5dp"/>
+
             </FrameLayout>
 
             <androidx.appcompat.widget.Toolbar

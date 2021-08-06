@@ -14,6 +14,7 @@ import android.view.View;
 interface OnItemClickListener {
     //void onItemClick(Artista artista);
     //void onItemClick(Artista artista, View view);
-    void onItemClick(Artista artista, View imgPhoto, View tvNote);
+    //void onItemClick(Artista artista, View imgPhoto, View tvNote);
+    void onItemClick(Artista artista, View imgPhoto, View tvName);
     void onLongItemClick(Artista artista);
 }

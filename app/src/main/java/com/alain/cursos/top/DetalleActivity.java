@@ -17,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -46,13 +48,14 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DetalleActivity extends AppCompatActivity {
 
     private static final int RC_PHOTO_PICKER = 21;
 
     @BindView(R.id.imgFoto)
-    AppCompatImageView imgFoto;
+    CircleImageView imgFoto;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.toolbar_layout)
@@ -85,6 +88,12 @@ public class DetalleActivity extends AppCompatActivity {
     TextInputLayout tilApellidos;
     @BindView(R.id.tilEstatura)
     TextInputLayout tilEstatura;
+    //New View
+    @BindView(R.id.tvName)
+    TextView tvName;
+
+    @BindView(R.id.imgCover)
+    AppCompatImageView imgCover;
 
     private Artista mArtista;
     private MenuItem mMenuItem;
@@ -143,6 +152,12 @@ public class DetalleActivity extends AppCompatActivity {
             } else {
                 toolbar.getNavigationIcon().setTint(Color.WHITE);
             }*/
+            if (verticalOffset == 0){
+                tvName.setVisibility(View.VISIBLE);
+            } else {
+                tvName.setVisibility(View.GONE);
+            }
+
             if (AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_YES){
                 float percentage = Math.abs((float) Math.abs(verticalOffset) / appBarLayout.getTotalScrollRange() -1);
                 int colorValue = (int) (percentage * 255);
@@ -152,11 +167,15 @@ public class DetalleActivity extends AppCompatActivity {
             }
         }));
 
+        RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).centerCrop();
+        Glide.with(this).load(R.drawable.img_cover_material_design).apply(options).into(imgCover);
+
         configTitle();
     }
 
     private void configTitle() {
         toolbarLayout.setTitle(mArtista.getNombreCompleto());
+        tvName.setText(mArtista.getNombreCompleto());
     }
 
     private void configImageView(String fotoUrl) {
