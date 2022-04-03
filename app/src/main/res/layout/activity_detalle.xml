@@ -20,7 +20,8 @@
             app:contentScrim="@color/color_collapsing_toolbar_layout"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar"
-            app:expandedTitleTextAppearance="@style/TextAppearance.Design.CollapsingToolbar.Expanded.Shadow">
+            app:collapsedTitleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:expandedTitleTextAppearance="@style/CollapsingToolbarExpanded">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -72,12 +73,14 @@
                     android:transitionName="@string/tn_name"
                     android:text="@string/artist_hint_nombre"
                     android:ellipsize="end"
-                    android:textSize="20sp"
+                    android:maxLines="1"
+                    android:letterSpacing="0.0"
+                    android:textAppearance="@style/TextAppearance.MyTheme.Headline5"
                     android:textColor="@android:color/darker_gray"
                     android:layout_gravity="start|bottom"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="26.5dp"/>
+                    android:layout_marginBottom="23.5dp"/>
 
             </FrameLayout>
 
