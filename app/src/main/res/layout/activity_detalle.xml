@@ -12,6 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height">
 
+        <!--Propiedades para layout_scrollFlags
+        noScroll: es lo mismo que no tener la propiedad
+        scroll: hace scroll pero al seguir haciendo scroll la toolbar desaparece
+        Nota: si se coloca cualquier otra opcion hace lo mismo que scroll
+        Lo que se debe de combinar es la propiedad de scroll con algo mas
+        scroll|enterAlways: tiene prioridad sobre el contenido, entrda de regreso
+        scroll|enterAlwaysCollapsed:
+        scroll|snap: trabaja con el scroll del dedo, si se suelta a mitad de la accion la autocompleta
+        scroll|exitUntilCollapsed: la accion que mas se usa, se muestra la toolbar y se pasa la accion del scroll
+        https://www.youtube.com/watch?v=OZxbth0uOf4
+        -->
+
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
